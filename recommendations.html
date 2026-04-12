@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>التوصيات - نظام إدارة الطاقة</title>
+    <style>
+        :root { --sidebar-bg: #1a237e; --main-bg: #f8f9fa; --rec-bg: #d4edda; --rec-text: #155724; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; background: var(--main-bg); }
+        .sidebar { width: 260px; background: var(--sidebar-bg); color: white; height: 100vh; position: fixed; }
+        .sidebar h2 { padding: 20px; font-size: 18px; border-bottom: 1px solid rgba(255,255,255,0.1); margin: 0; }
+        .sidebar nav a { display: block; color: white; padding: 15px 20px; text-decoration: none; }
+        .sidebar nav a:hover, .sidebar nav a.active { background: rgba(255,255,255,0.1); }
+        .content { margin-right: 260px; padding: 40px; width: 100%; }
+        .rec-item { background: var(--rec-bg); color: var(--rec-text); padding: 20px; border-radius: 8px; margin-bottom: 15px; border-right: 5px solid #28a745; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>نظام إدارة الطاقة</h2>
+        <nav>
+            <a href="dashboard.html">إحصائيات الاستهلاك</a>
+            <a href="upload.html">إدخال البيانات</a>
+            <a href="alerts.html">التنبيهات</a>
+            <a href="recommendations.html" class="active">التوصيات</a>
+            <a href="index.html" style="color: #ff8a80;">تسجيل الخروج</a>
+        </nav>
+    </div>
+    <div class="content">
+        <h1>توصيات تحسين الكفاءة</h1>
+        <div class="rec-item">
+            <strong>توصية:</strong> يفضل ضبط أجهزة التكييف على درجة حرارة 24 مئوية لتقليل الهدر.
+        </div>
+        <div class="rec-item">
+            <strong>توصية:</strong> إيقاف تشغيل الأجهزة غير الضرورية خلال ساعات الذروة المكتشفة.
+        </div>
+    </div>
+</body>
+</html>

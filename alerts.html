@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>التنبيهات - نظام إدارة الطاقة</title>
+    <style>
+        :root { --sidebar-bg: #1a237e; --main-bg: #f8f9fa; --alert-danger: #f8d7da; --alert-text: #721c24; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; background: var(--main-bg); }
+        .sidebar { width: 260px; background: var(--sidebar-bg); color: white; height: 100vh; position: fixed; }
+        .sidebar h2 { padding: 20px; font-size: 18px; border-bottom: 1px solid rgba(255,255,255,0.1); margin: 0; }
+        .sidebar nav a { display: block; color: white; padding: 15px 20px; text-decoration: none; transition: 0.3s; }
+        .sidebar nav a:hover, .sidebar nav a.active { background: rgba(255,255,255,0.1); }
+        .content { margin-right: 260px; padding: 40px; width: 100%; }
+        .alert-item { background: var(--alert-danger); color: var(--alert-text); padding: 20px; border-radius: 8px; margin-bottom: 15px; border-right: 5px solid #dc3545; }
+        .lang-btn { float: left; cursor: pointer; background: #eee; padding: 5px 15px; border-radius: 4px; border: none; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>نظام إدارة الطاقة</h2>
+        <nav>
+            <a href="dashboard.html">إحصائيات الاستهلاك</a>
+            <a href="upload.html">إدخال البيانات</a>
+            <a href="alerts.html" class="active">التنبيهات</a>
+            <a href="recommendations.html">التوصيات</a>
+            <a href="index.html" style="color: #ff8a80;">تسجيل الخروج</a>
+        </nav>
+    </div>
+    <div class="content">
+        <button class="lang-btn" onclick="toggleLang()">English</button>
+        <h1 id="pageTitle">التنبيهات التلقائية</h1>
+        <div id="alertsContainer">
+            <div class="alert-item">
+                <strong id="alertLabel1">تنبيه:</strong> <span id="alertMsg1">تم اكتشاف استهلاك مرتفع بشكل غير معتاد في الساعة 02:00 مساءً.</span>
+            </div>
+            <div class="alert-item">
+                <strong id="alertLabel2">تنبيه:</strong> <span id="alertMsg2">تجاوز الاستهلاك اليومي الحد المسموح به بنسبة 15%.</span>
+            </div>
+        </div>
+    </div>
+    <script>
+        function toggleLang() {
+            const isAr = document.documentElement.dir === "rtl";
+            document.documentElement.dir = isAr ? "ltr" : "rtl";
+            document.querySelector('.sidebar').style.right = isAr ? "auto" : "0";
+            document.querySelector('.content').style.marginRight = isAr ? "0" : "260px";
+            document.querySelector('.content').style.marginLeft = isAr ? "260px" : "0";
+            document.getElementById('pageTitle').innerText = isAr ? "Automated Alerts" : "التنبيهات التلقائية";
+            document.getElementById('alertLabel1').innerText = isAr ? "Alert:" : "تنبيه:";
+            document.getElementById('alertMsg1').innerText = isAr ? "Unusual high consumption detected at 02:00 PM." : "تم اكتشاف استهلاك مرتفع بشكل غير معتاد في الساعة 02:00 مساءً.";
+        }
+    </script>
+</body>
+</html>
