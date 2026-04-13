@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة الطاقة الذكي - الدخول</title>
+    <style>
+        :root { --primary-color: #003366; --secondary-color: #00509d; --bg-color: #f4f7f6; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background-color: var(--bg-color); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); width: 100%; max-width: 450px; text-align: center; }
+        h1 { color: var(--primary-color); font-size: 24px; margin-bottom: 10px; }
+        p { color: #666; margin-bottom: 30px; }
+        .form-group { text-align: right; margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #333; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 16px; transition: border 0.3s; }
+        input:focus { border-color: var(--secondary-color); outline: none; }
+        .btn-submit { background-color: var(--primary-color); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; cursor: pointer; font-size: 18px; font-weight: bold; transition: background 0.3s; }
+        .btn-submit:hover { background-color: var(--secondary-color); }
+        .lang-switch { margin-top: 20px; display: inline-block; color: var(--secondary-color); cursor: pointer; text-decoration: underline; font-size: 14px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="title">نظام إدارة استهلاك الطاقة الذكي</h1>
+        <p id="subtitle">أدخل رقم العداد للبدء بمراقبة استهلاكك</p>
+        
+        <div class="form-group">
+            <label id="labelMeter">رقم العداد</label>
+            <input type="text" id="meterNumber" placeholder="أدخل رقم العداد هنا">
+        </div>
+        
+        <button class="btn-submit" onclick="goToDashboard()" id="btnEntry">دخول النظام</button>
+        
+        <div class="lang-switch" onclick="toggleLanguage()" id="langToggle">English</div>
+    </div>
+
+    <script>
+        function goToDashboard() {
+            const meter = document.getElementById('meterNumber').value;
+            if(meter) {
+                location.href = 'dashboard.html';
+            } else {
+                alert(document.documentElement.lang === 'ar' ? "يرجى إدخال رقم العداد" : "Please enter meter number");
+            }
+        }
+
+        function toggleLanguage() {
+            const isAr = document.documentElement.lang === 'ar';
+            document.documentElement.lang = isAr ? 'en' : 'ar';
+            document.documentElement.dir = isAr ? 'ltr' : 'rtl';
+            
+            document.getElementById('title').innerText = isAr ? "Smart Energy Management System" : "نظام إدارة استهلاك الطاقة الذكي";
+            document.getElementById('subtitle').innerText = isAr ? "Enter meter number to start monitoring" : "أدخل رقم العداد للبدء بمراقبة استهلاكك";
+            document.getElementById('labelMeter').innerText = isAr ? "Meter Number" : "رقم العداد";
+            document.getElementById('btnEntry').innerText = isAr ? "Enter System" : "دخول النظام";
+            document.getElementById('langToggle').innerText = isAr ? "العربية" : "English";
+        }
+    </script>
+</body>
+</html>
