@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تسجيل الدخول - نظام إدارة الطاقة</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 380px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        p {
+            color: #777;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            font-family: 'Cairo', sans-serif;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .footer-logo {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #bbb;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <h2>نظام إدارة الطاقة</h2>
+        <p>الرجاء إدخال رقم العداد وكلمة المرور</p>
+        
+        <!-- تم حذف "مثلاً: 1111" من هنا -->
+        <input type="text" id="meterInput" placeholder="رقم العداد">
+        <input type="password" id="passInput" placeholder="كلمة المرور">
+        
+        <button onclick="checkLogin()">دخول</button>
+        
+        <div class="footer-logo">إصدار 2026 v1.0</div>
+    </div>
+
+    <script>
+      function checkLogin() {
+            const meter = document.getElementById('meterInput').value;
+            const password = document.getElementById('passInput').value;
+
+            // تحديث أرقام العدادات الجديدة والبقاء على نفس الباسووردات
+            const users = {
+                "102938": "p111",
+                "104756": "p222",
+                "019283": "p333",
+                "017465": "p444"
+            };
+
+            if (users[meter] && users[meter] === password) {
+                localStorage.setItem('activeUser', meter);
+                window.location.href = 'dashboard.html';
+            } else {
+                alert('خطأ في رقم العداد أو كلمة المرور!');
+            }
+        }
+    </script>
+</body>
+</html>
