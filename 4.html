@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>إدارة البيانات - نظام الطاقة</title>
+    <style>
+        :root { --sidebar-w: 260px; --primary: #003366; --bg: #f8f9fa; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; background: var(--bg); min-height: 100vh; }
+        
+        /* القائمة الجانبية الموحدة */
+        .sidebar { width: var(--sidebar-w); background: var(--primary); color: white; height: 100vh; position: fixed; }
+        .sidebar h2 { padding: 25px 20px; font-size: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); margin: 0; }
+        .sidebar nav a { display: block; color: white; padding: 15px 20px; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .sidebar nav a:hover, .sidebar nav a.active { background: rgba(255,255,255,0.1); }
+        
+        /* المحتوى الرئيسي */
+        .main-content { margin-right: var(--sidebar-w); padding: 40px; width: calc(100% - var(--sidebar-w)); }
+        
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 25px; }
+        h1 { color: var(--primary); margin-bottom: 30px; }
+        h2 { color: var(--primary); margin-top: 0; font-size: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; margin-bottom: 20px; }
+        
+        .form-group { margin-bottom: 20px; text-align: right; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
+        input[type="number"], input[type="file"] { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-family: inherit; }
+        
+        .btn { background: var(--primary); color: white; border: none; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-upload { background: #28a745; margin-top: 15px; }
+        
+        .info-badge { background: #eef2f7; padding: 10px 15px; border-radius: 8px; color: var(--primary); font-weight: bold; display: inline-block; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <!-- القائمة الجانبية -->
+    <div class="sidebar">
+        <h2>نظام الطاقة الذكي</h2>
+        <nav>
+            <a href="dashboard.html">تحليل الاستهلاك</a>
+            <a href="data.html" class="active">إدارة البيانات</a>
+            <a href="monitoring.html">التنبيهات والأنماط</a>
+            <a href="recommendations.html">التوصيات الذكية</a>
+            <a href="index.html" style="color: #ff9999;" onclick="localStorage.clear()">خروج</a>
+        </nav>
+    </div>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="main-content">
+        <h1>إدارة وإدخال البيانات</h1>
+        
+        <!-- عرض رقم العداد النشط -->
+        <div id="activeMeterDisplay" class="info-badge">جاري التعرف على العداد...</div>
+
+        <div class="card">
+            <h2>إدخال الاستهلاك يدوياً</h2>
+            <div class="form-group">
+                <label>قيمة الاستهلاك الحالية (kWh)</label>
+                <input type="number" id="manualInput" placeholder="أدخل القيمة هنا">
+            </div>
+            <button class="btn" onclick="saveData()">حفظ البيانات</button>
+        </div>
+
+        <div class="card">
+            <h2>رفع ملف البيانات (CSV)</h2>
+            <p style="color: #666; font-size: 14px;">يمكنك رفع ملف يحتوي على سجلات الاستهلاك لتحليلها دفعة واحدة في النظام.</p>
+            <input type="file" id="csvFile" accept=".csv">
+            <br>
+            <button class="btn btn-upload" onclick="processFile()">تحميل ومعالجة الملف</button>
+        </div>
+    </div>
+
+    <script>
+        // 1. جلب رقم العداد من الذاكرة لضمان الربط
+        const currentMeter = localStorage.getItem('activeUser') || '102938';
+        document.getElementById('activeMeterDisplay').innerText = "تحديث بيانات العداد: " + currentMeter;
+
+        // 2. وظيفة حفظ البيانات اليدوية
+        function saveData() {
+            const val = document.getElementById('manualInput').value;
+            if(val) {
+                alert("تم حفظ القيمة (" + val + " kWh) للعداد رقم " + currentMeter + " بنجاح.");
+                document.getElementById('manualInput').value = ""; // تفريغ الخانة
+            } else {
+                alert("فضلاً أدخل قيمة الاستهلاك أولاً.");
+            }
+        }
+
+        // 3. وظيفة معالجة الملف
+        function processFile() {
+            const fileInput = document.getElementById('csvFile');
+            if(fileInput.files.length > 0) {
+                alert("جاري رفع ومعالجة ملف البيانات للعداد " + currentMeter + "... يرجى الانتظار.");
+            } else {
+                alert("فضلاً اختر ملف CSV للرفع.");
+            }
+        }
+    </script>
+</body>
+</html>
