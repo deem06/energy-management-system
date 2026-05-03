@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة التحكم - إدارة الطاقة</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+        
+        body { 
+            font-family: 'Cairo', sans-serif; 
+            margin: 0; 
+            background: #f8f9fa; 
+            display: flex;
+        }
+        
+        /* الشريط الجانبي - التصميم القديم */
+        .sidebar { 
+            width: 260px; 
+            height: 100vh; 
+            background: #202124; 
+            color: white; 
+            position: fixed; 
+            padding: 20px; 
+            box-sizing: border-box;
+        }
+        
+        .main-content { 
+            margin-right: 260px; /* الإزاحة لليمين لأن الموقع RTL */
+            padding: 40px; 
+            flex-grow: 1;
+        }
+        
+        h3 { color: #202124; margin-bottom: 25px; }
+
+        .user-info {
+            background: #3c4043;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .nav-link { 
+            display: block; 
+            color: #bdc1c6; 
+            padding: 15px 10px; 
+            text-decoration: none; 
+            border-bottom: 1px solid #3c4043;
+            transition: 0.3s;
+        }
+        
+        .nav-link:hover { 
+            color: white; 
+            background: #3c4043;
+            border-radius: 5px;
+        }
+
+        .card { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 12px; 
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08); 
+        }
+
+        .logout-btn {
+            color: #f28b82;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الشريط الجانبي -->
+    <div class="sidebar">
+        <h2 style="color: #1a73e8;">طاقة ذكية</h2>
+        <div class="user-info">
+            مرحباً بك،<br>
+            <strong id="userDisplay">رقم العداد: جاري التحميل...</strong>
+        </div>
+        
+        <a href="dashboard.html" class="nav-link">لوحة التحكم</a>
+        <a href="data.html" class="nav-link">إدارة البيانات</a>
+        <a href="monitoring.html" class="nav-link">المراقبة الفورية</a>
+        <a href="recommendations.html" class="nav-link">نصائح التوفير</a>
+        <a href="index.html" class="nav-link logout-btn">تسجيل الخروج</a>
+    </div>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="main-content">
+        <div class="card">
+            <h3 id="statusTitle">تحليل استهلاك الطاقة الأسبوعي</h3>
+            <canvas id="mainChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        // جلب رقم العداد من الذاكرة
+        const user = localStorage.getItem('activeUser') || '1111';
+        document.getElementById('userDisplay').innerText = "رقم العداد: " + user;
+
+        let stats = [];
+        let statusText = "تحليل الاستهلاك الأسبوعي";
+
+        // تخصيص البيانات والرسائل بناءً على الحساب
+        if(user === '1111') {
+            stats = [15, 12, 14, 11, 13, 12, 14];
+            statusText = "تحليل الاستهلاك: نمط مثالي ومستقر ✅";
+        } else if(user === '2222') {
+            stats = [80, 95, 110, 105, 120, 115, 130];
+            statusText = "تحليل الاستهلاك: تنبيه - استهلاك مرتفع جداً ⚠️";
+        } else if(user === '3333') {
+            stats = [20, 70, 15, 90, 10, 85, 15];
+            statusText = "تحليل الاستهلاك: رصد تذبذب غير منتظم 📉";
+        } else if(user === '4444') {
+            stats = [45, 46, 44, 47, 45, 46, 45];
+            statusText = "تحليل الاستهلاك: رصد حمل ثابت (احتمال تسريب) 🔍";
+        }
+
+        document.getElementById('statusTitle').innerText = statusText;
+
+        // رسم المخطط البياني
+        const ctx = document.getElementById('mainChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
+                datasets: [{
+                    label: 'الاستهلاك (كيلوواط)',
+                    data: stats,
+                    borderColor: user === '2222' ? '#d93025' : '#1a73e8',
+                    backgroundColor: user === '2222' ? 'rgba(217, 48, 37, 0.1)' : 'rgba(26, 115, 232, 0.1)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: { font: { family: 'Cairo' } }
+                    }
+                },
+                scales: {
+                    y: { beginAtZero: true },
+                    x: { ticks: { font: { family: 'Cairo' } } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
