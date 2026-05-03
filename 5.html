@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>التوصيات الذكية - نظام الطاقة</title>
+    <style>
+        :root { --sidebar-w: 260px; --primary: #003366; --bg: #f8f9fa; --accent: #0056b3; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; background: var(--bg); min-height: 100vh; }
+        
+        /* القائمة الجانبية الموحدة */
+        .sidebar { width: var(--sidebar-w); background: var(--primary); color: white; height: 100vh; position: fixed; }
+        .sidebar h2 { padding: 25px 20px; font-size: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); margin: 0; }
+        .sidebar nav a { display: block; color: white; padding: 15px 20px; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .sidebar nav a:hover, .sidebar nav a.active { background: rgba(255,255,255,0.1); }
+        
+        /* المحتوى الرئيسي */
+        .main-content { margin-right: var(--sidebar-w); padding: 40px; width: calc(100% - var(--sidebar-w)); }
+        
+        h1 { color: var(--primary); margin-bottom: 30px; }
+
+        /* صناديق التوصيات */
+        .rec-box { background: white; padding: 25px; border-radius: 12px; margin-bottom: 20px; color: #333; border-right: 6px solid var(--accent); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .rec-box strong { color: var(--primary); display: block; margin-bottom: 10px; font-size: 18px; }
+        
+        /* قسم السحابة */
+        .cloud-info { background: #fff; padding: 20px; border-radius: 10px; border-top: 4px solid var(--primary); margin-top: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .cloud-info h3 { margin-top: 0; color: var(--primary); display: flex; align-items: center; gap: 10px; }
+        
+        .user-badge { background: var(--primary); color: white; padding: 5px 15px; border-radius: 20px; font-size: 14px; margin-bottom: 20px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>نظام الطاقة الذكي</h2>
+        <nav>
+            <a href="dashboard.html">تحليل الاستهلاك</a>
+            <a href="data.html">إدارة البيانات</a>
+            <a href="monitoring.html">التنبيهات والأنماط</a>
+            <a href="recommendations.html" class="active">التوصيات الذكية</a>
+            <a href="index.html" style="color: #ff9999;" onclick="localStorage.clear()">خروج</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <h1>التوصيات الذكية لتحسين الكفاءة</h1>
+        
+        <div id="meterDisplay" class="user-badge">عداد: ----</div>
+
+        <div id="recommendationsContainer">
+            <!-- التوصيات تظهر هنا بناءً على الحساب -->
+        </div>
+
+        <div class="cloud-info">
+            <h3>☁️ حالة التخزين السحابي</h3>
+            <p>جميع بياناتك مؤمنة ومحفوظة سحابياً أونلاين. يتم الآن مزامنة سجلات العداد <span id="syncMeter">----</span> لضمان وصولك إليها من أي مكان.</p>
+        </div>
+    </div>
+
+    <script>
+        const currentMeter = localStorage.getItem('activeUser') || '102938';
+        document.getElementById('meterDisplay').innerText = "توصيات العداد رقم: " + currentMeter;
+        document.getElementById('syncMeter').innerText = currentMeter;
+
+        const container = document.getElementById('recommendationsContainer');
+
+        // مصفوفة التوصيات المخصصة لكل حالة
+        const recs = {
+            "102938": [
+                { title: "حافظ على مستواك ", text: "استهلاكك مثالي جداً. استمر في اتباع هذه العادات للحفاظ على كفاءة الطاقة." },
+                { title: "تطوير مستقبلي", text: "بما أن نمط استهلاكك مستقر، يمكنك التفكير في تركيب ألواح شمسية صغيرة لتقليل التكلفة للصفر." }
+            ],
+            "104756": [
+                { title: "تنبيه ساعات الذروة ", text: "أغلب استهلاكك يتركز في وقت الذروة. ننصح بجدولة الأجهزة الثقيلة (غسالة، نشافة) بعد الساعة 10 مساءً." },
+                { title: "صيانة التكييف", text: "الاستهلاك العالي المفاجئ يشير إلى حاجة فلاتر المكيف للتنظيف لتقليل الجهد الكهربائي." }
+            ],
+            "019283": [
+                { title: "معالجة التذبذب ", text: "نلاحظ تشغيل وإطفاء متكرر للأجهزة. استخدام منظم جهد (Stabilizer) قد يحمي أجهزتك ويوفر الطاقة." },
+                { title: "الإضاءة الذكية", text: "استبدال المصابيح العادية بـ LED سيقلل من حدة التذبذب المرصودة في نظامك." }
+            ],
+            "017465": [
+                { title: "كشف التسريب المحتمل ", text: "نلاحظ وجود حمل ثابت طوال الليل. تأكد من إطفاء أجهزة السخانات أو أي تسريب في الدوائر الكهربائية." },
+                { title: "ترشيد الانتظار (Standby)", text: "فصل الأجهزة من القابس عند عدم الاستخدام سيوفر لك حوالي 5% من الهدر المرصود حالياً." }
+            ]
+        };
+
+        const myRecs = recs[currentMeter] || recs["102938"];
+
+        myRecs.forEach(item => {
+            const box = document.createElement('div');
+            box.className = 'rec-box';
+            box.innerHTML = `<strong>${item.title}</strong><span>${item.text}</span>`;
+            container.appendChild(box);
+        });
+    </script>
+</body>
+</html>
