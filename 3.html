@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>المراقبة والأنماط - نظام الطاقة</title>
+    <style>
+        :root { --sidebar-w: 260px; --primary: #003366; --bg: #f8f9fa; --danger: #dc3545; --warning: #ffc107; --success: #28a745; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; display: flex; background: var(--bg); min-height: 100vh; }
+        
+        /* القائمة الجانبية */
+        .sidebar { width: var(--sidebar-w); background: var(--primary); color: white; height: 100vh; position: fixed; }
+        .sidebar h2 { padding: 25px 20px; font-size: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); margin: 0; }
+        .sidebar nav a { display: block; color: white; padding: 15px 20px; text-decoration: none; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .sidebar nav a:hover, .sidebar nav a.active { background: rgba(255,255,255,0.1); }
+        
+        /* المحتوى الرئيسي */
+        .main-content { margin-right: var(--sidebar-w); padding: 40px; width: calc(100% - var(--sidebar-w)); }
+        
+        h1 { color: var(--primary); margin-bottom: 30px; font-size: 28px; }
+
+        /* بطاقات التنبيه */
+        .alert-card { background: white; padding: 25px; border-radius: 12px; border-right: 8px solid; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: 0.3s; }
+        .danger { border-right-color: var(--danger); }
+        .warning { border-right-color: var(--warning); }
+        .success { border-right-color: var(--success); }
+        
+        .alert-title { font-weight: bold; font-size: 20px; margin-bottom: 10px; display: block; color: #333; }
+        .alert-desc { color: #666; line-height: 1.6; }
+        
+        .meter-info { background: #eee; padding: 10px 20px; border-radius: 5px; font-weight: bold; color: var(--primary); display: inline-block; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <!-- القائمة الجانبية الموحدة -->
+    <div class="sidebar">
+        <h2>نظام الطاقة الذكي</h2>
+        <nav>
+            <a href="dashboard.html">تحليل الاستهلاك</a>
+            <a href="data.html">إدارة البيانات</a>
+            <a href="monitoring.html" class="active">التنبيهات والأنماط</a>
+            <a href="recommendations.html">التوصيات الذكية</a>
+            <a href="index.html" style="color: #ff9999;" onclick="localStorage.clear()">خروج</a>
+        </nav>
+    </div>
+
+    <div class="main-content">
+        <h1>نظام المراقبة واكتشاف الأنماط</h1>
+        
+        <div id="meterDisplay" class="meter-info">جاري فحص العداد...</div>
+
+        <!-- منطقة التنبيهات الديناميكية -->
+        <div id="alertsContainer">
+            <!-- سيتم تعبئة التنبيهات هنا بواسطة JavaScript -->
+        </div>
+    </div>
+
+    <script>
+       // 1. جلب رقم العداد الجديد
+        const currentMeter = localStorage.getItem('activeUser') || '102938';
+        document.getElementById('meterDisplay').innerText = "مراقبة العداد رقم: " + currentMeter;
+
+        // 2. تنبيهات الأرقام الجديدة
+        const alertsData = {
+            "102938": [
+                { type: "success", title: "حالة النظام: مثالية", desc: "لا توجد أي أنماط غير طبيعية مرصودة حالياً. الاستهلاك مستقر تماماً." }
+            ],
+            "104756": [
+                { type: "danger", title: "تنبيه: استهلاك حرج", desc: "تم رصد تجاوز للحد المسموح به بنسبة 40% خلال فترة الذروة." }
+            ],
+            "019283": [
+                { type: "warning", title: "اكتشاف نمط متذبذب", desc: "تم رصد ارتفاع مفاجئ في الاستهلاك بشكل متكرر." }
+            ],
+            "017465": [
+                { type: "warning", title: "نمط استهلاك مستمر", desc: "تم رصد استهلاك ثابت طوال الليل، مما يشير لاحتمال وجود تسريب." }
+            ]
+        };
+
+        // 3. عرض التنبيهات الخاصة بالعداد المختار
+        const myAlerts = alertsData[currentMeter] || alertsData["1111"];
+        
+        myAlerts.forEach(alert => {
+            const card = document.createElement('div');
+            card.className = `alert-card ${alert.type}`;
+            card.innerHTML = `
+                <span class="alert-title">${alert.title}</span>
+                <span class="alert-desc">${alert.desc}</span>
+            `;
+            container.appendChild(card);
+        });
+    </script>
+</body>
+</html>
